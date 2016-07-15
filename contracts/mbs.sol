@@ -112,9 +112,6 @@ contract mbsContract {
                     investors.length--;
                 }
             }
-            
-            // add recipient to investor list
-            
         }
     }
     
