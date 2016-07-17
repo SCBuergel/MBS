@@ -39,7 +39,7 @@ contract mortgageContract {
     function linkMbs(address mbsContractAddress) onlyOwner {
         mbs = mbsContract(mbsContractAddress);
     }
-    
+        
     function getMbs() constant returns (address a) {
         a = mbs;
     }
@@ -89,39 +89,35 @@ contract mbsContract {
             throw;
         if (tokenBalance[msg.sender] < amount)
             throw;
-        else {
-            if (tokenBalance[to] == 0)
-                investors.push(to); // add new investor if they have not been an investor before
+        if (tokenBalance[to] == 0)
+            investors.push(to); // add new investor if they have not been an investor before
 
-            tokenBalance[msg.sender] -= amount;
-            tokenBalance[to] += amount;
-            
-            if (tokenBalance[msg.sender] < 1)
-            {   // delete msg.sender from list of investors if it doesnt hold tokens anymore
-                uint numInvestors = investors.length;
-                bool foundTarget = false;
-                for (uint i = 0; i < numInvestors; i++) {
-                    if (investors[i] == msg.sender) {
-                        delete investors[i];
-                        foundTarget = true;
-                    }
-                    if (foundTarget && i > numInvestors - 1)
-                        investors[i] = investors[i+1];
+        tokenBalance[msg.sender] -= amount;
+        tokenBalance[to] += amount;
+        
+        if (tokenBalance[msg.sender] < 1)
+        {   // delete msg.sender from list of investors if it doesnt hold tokens anymore
+            uint numInvestors = investors.length;
+            bool foundTarget = false;
+            for (uint i = 0; i < numInvestors; i++) {
+                if (investors[i] == msg.sender) {
+                    delete investors[i];
+                    foundTarget = true;
                 }
-                if (foundTarget) {
-                    investors.length--;
-                }
+                if (foundTarget && i < numInvestors - 1)
+                    investors[i] = investors[i+1];
+            }
+            if (foundTarget) {
+                investors.length--;
             }
         }
     }
     
-    function getMyBalance() constant returns (uint b) {
+    function getMyTokenBalance() constant returns (uint b) {
         b = tokenBalance[msg.sender];
     }
     
-    function getBalance(address accountOwner) constant returns (uint a) {
-        // get someone else's balance (note: some*one* includes contracts,
-        //   do we need a new pronoun?!)
+    function getTokenBalance(address accountOwner) constant returns (uint a) {
         a = tokenBalance[accountOwner];
     }
     
