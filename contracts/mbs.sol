@@ -36,7 +36,7 @@ contract mortgageContract {
             _
     }
     
-    function linkMbs(address mbsContractAddress) onlyOwner {
+    function setMbs(address mbsContractAddress) onlyOwner {
         mbs = mbsContract(mbsContractAddress);
     }
         
@@ -58,7 +58,7 @@ contract mortgageContract {
         i = a.balance;
     }
     
-    function getMyBalance() constant returns (uint i) {
+    function getMyEthBalance() constant returns (uint i) {
         i = getEthBalance(msg.sender);
     }
 }
