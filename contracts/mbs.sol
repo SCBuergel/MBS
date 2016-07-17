@@ -23,9 +23,9 @@ contract mortgageContract {
         uint totalSupply = mbs.getTotalSupply();
         for (uint i = 0; i < numInvestors; i++) {
             address investor = mbs.getInvestor(i);
-            uint tokensOfInvestor = mbs.getBalance(investor);
+            uint tokensOfInvestor = mbs.getTokenBalance(investor);
             uint payout = msg.value * tokensOfInvestor / totalSupply;
-            investor.send(payout);
+            bool s = investor.send(payout);
         }
     }
     
