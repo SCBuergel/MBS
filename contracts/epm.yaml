@@ -1,0 +1,24 @@
+jobs:
+
+- name: deployContract1
+  job:
+    deploy:
+      contract: mbs.sol
+      instance: mortgageContract
+      wait: true
+
+- name: deployContract2
+  job:
+    deploy:
+      contract: mbs.sol
+      instance: mbsContract  
+      data: 100
+      wait: true
+
+- name: registerMbsForMortgage
+  job:
+    call:
+      destination: $deployContract1
+      data: setMbs $deployContract2
+      wait: true
+
